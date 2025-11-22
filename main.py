@@ -14,15 +14,22 @@ def main():
     dt = 0  # "delta time", specific for game dev
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
+    # adding pygame Groups, for kind of separation actions on things on the screen?
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable, drawable)
     player = Player(x, y)
+
     while True:
         log_state()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
-        player.update(dt)    
+        updatable.update(dt)    
         screen.fill("black")
-        player.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
         pygame.display.flip()   # refreshes the screen
         dt = clock.tick(60) / 1000  # framerate to 60 FPS
         
