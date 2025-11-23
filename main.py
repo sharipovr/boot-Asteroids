@@ -38,11 +38,16 @@ def main():
             if event.type == pygame.QUIT:
                 return
         updatable.update(dt)
-        for obj in asteroids:
-            if obj.collides_with(player):
+        for ast in asteroids:
+            if ast.collides_with(player):
                 log_event("player_hit")
                 print("Game over!")
                 sys.exit()
+            for sho in shots:
+                if sho.collides_with(ast):
+                    log_event("asteroid_shot")
+                    sho.kill()
+                    ast.kill()
 
         screen.fill("black")
         for obj in drawable:
